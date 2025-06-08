@@ -1,38 +1,7 @@
 import mongoose from 'mongoose';
-import { model, Schema } from 'mongoose';
 import dotenv from 'dotenv';
 
 dotenv.config();
-
-const contactsSchema = new Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-    },
-    phoneNumber: {
-      type: String,
-      required: true,
-    },
-    email: {
-      type: String,
-    },
-    isFavorite: {
-      type: Boolean,
-      default: false,
-    },
-    contactType: {
-      type: String,
-      enum: ['work', 'home', 'personal'],
-      default: 'personal',
-      required: true,
-    },
-  },
-  {
-    timestamps: true,
-  },
-);
-export const contactsCollection = model('contacts', contactsSchema);
 
 export const initMongoDB = async () => {
   try {
@@ -49,14 +18,4 @@ export const initMongoDB = async () => {
     console.log('Error while setting up mongo connection', e);
     throw e;
   }
-};
-
-export const getAllContacts = async () => {
-  const contacts = await contactsCollection.find();
-  return contacts;
-};
-
-export const getContactById = async (studentId) => {
-  const contact = await contactsCollection.findById(studentId);
-  return contact;
 };

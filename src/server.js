@@ -2,8 +2,7 @@ import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { getAllContacts } from './db/initMongoConnection.js';
-import { getContactById } from './db/initMongoConnection.js';
+import { getAllContacts, getContactById } from './services/contacts.js';
 
 dotenv.config();
 
