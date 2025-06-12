@@ -2,7 +2,9 @@ import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { getAllContacts, getContactById } from './services/contacts.js';
+import contactsRouter from './routers/contacts.js';
+import { errorHandler } from './middlewares/errorHandler.js';
+import { notFoundHandler } from './middlewares/notFoundHandler.js';
 
 dotenv.config();
 
@@ -11,65 +13,35 @@ const PORT = Number(process.env.PORT);
 export const setupServer = () => {
   const app = express();
 
-  app.use(express.json());
+  // Спочатку всі middleware
   app.use(cors());
+  app.use(express.json({
+    type: ['application/json', 'application/vnd.api+json'],
+  }));
+  app.use(pino({
+    transport: {
+      target: 'pino-pretty',
+    },
+  }));
 
-  app.use(
-    pino({
-      transport: {
-        target: 'pino-pretty',
-      },
-    }),
-  );
-
+  // Маршрути
   app.get('/', (req, res) => {
     res.json({
       message: 'Hello world!',
     });
   });
+  app.use('/contacts', contactsRouter);
 
-  app.get('/contacts', async (req, res) => {
-    const contacts = await getAllContacts();
-
-    res.status(200).json({
-      status: 200,
-      message: 'Successfully found contacts!',
-      data: contacts,
-    });
-  });
-
-  app.get('/contacts/:contactId', async (req, res, next) => {
-    const { contactId } = req.params;
-    const contact = await getContactById(contactId);
-
-    if (!contact) {
-      res.status(404).json({
-        message: 'Contact not found',
-      });
-      return;
-    }
-
-    res.status(200).json({
-      status: 200,
-      message: `Successfully found contact with id ${contactId}!`,
-      data: contact,
-    });
-  });
-
+  // Обробники помилок - змінюємо на використання звичайного use
   app.use((req, res, next) => {
-    res.status(404).json({
-      message: 'Not found',
-    });
+    notFoundHandler(req, res, next);
   });
+  app.use(errorHandler);
 
-  app.use((err, req, res, next) => {
-    res.status(500).json({
-      message: 'Something went wrong',
-      error: err.message,
+  return new Promise((resolve) => {
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+      resolve(app);
     });
-  });
-
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
   });
 };
