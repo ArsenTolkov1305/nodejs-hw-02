@@ -7,12 +7,21 @@ import {
 } from '../services/contacts.js';
 
 export const getContactsController = async (req, res) => {
-  const contacts = await getAllContacts();
+  const { page, perPage, sortBy, sortOrder, type, isFavourite } = req.query;
+  
+  const contacts = await getAllContacts({
+    page: Number(page),
+    perPage: Number(perPage),
+    sortBy,
+    sortOrder,
+    type,
+    isFavourite: isFavourite === 'true' ? true : isFavourite === 'false' ? false : undefined
+  });
 
   res.json({
     status: 200,
     message: 'Successfully found contacts!',
-    data: contacts,
+    data: contacts
   });
 };
 
