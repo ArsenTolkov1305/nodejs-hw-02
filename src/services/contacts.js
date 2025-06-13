@@ -22,20 +22,19 @@ export const deleteContact = async (contactId) => {
 };
 
 export const updateContact = async (contactId, payload, options = {}) => {
-  const rawResult = await Contact.findOneAndUpdate(
+  const document = await Contact.findOneAndUpdate(
     { _id: contactId },
     payload,
     {
       new: true,
-      includeResultMetadata: true,
       ...options,
     },
   );
 
-  if (!rawResult || !rawResult.value) return null;
+  if (!document) return null;
 
   return {
-    contact: rawResult.value,
-    isNew: Boolean(rawResult?.lastErrorObject?.upserted),
+    contact: document,
+    isNew: options.upsert && !await Contact.exists({ _id: contactId })
   };
 };
