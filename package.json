@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/ArsenTolkov1305/nodejs-hw-02#readme",
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "eslint": "^9.28.0",
