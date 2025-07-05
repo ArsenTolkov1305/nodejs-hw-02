@@ -17,9 +17,7 @@ export const setupServer = () => {
   app.use(cors());
   app.use(cookieParser());
   app.use(
-    express.json({
-      type: ['application/json', 'application/vnd.api+json'],
-    }),
+    express.json(),
   );
   app.use(
     pino({
