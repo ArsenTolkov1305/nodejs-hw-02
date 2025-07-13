@@ -11,7 +11,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000"
+      "url": "https://nodejs-hw-07-hxh3.onrender.com"
     }
   ],
   "tags": [
@@ -180,8 +180,7 @@
                 "type": "object",
                 "required": [
                   "name",
-                  "email",
-                  "phoneNumber"
+                  "email"
                 ],
                 "properties": {
                   "name": {
@@ -195,7 +194,15 @@
                   },
                   "phoneNumber": {
                     "type": "string",
-                    "description": "Phone number of the contact"
+                    "description": "Phone number of the Contact"
+                  },
+                  "isFavourite": {
+                    "type": "boolean",
+                    "description": "Is this contact a favourite?"
+                  },
+                  "contactType": {
+                    "type": "string",
+                    "description": "Type of the contact (\"work\", \"home\", or \"personal\")"
                   },
                   "photo": {
                     "description": "Contact photo",
