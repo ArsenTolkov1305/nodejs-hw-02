@@ -12,7 +12,6 @@ tags:
   - name: Auth
     description: Auth operations.
 servers:
-  - url: http://localhost:3000
   - url: https://nodejs-hw-07-hxh3.onrender.com
 paths:
   /contacts:
