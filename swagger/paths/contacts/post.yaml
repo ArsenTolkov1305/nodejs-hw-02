@@ -13,7 +13,6 @@ requestBody:
         required:
           - name
           - email
-          - phoneNumber
         properties:
           name:
             type: string
@@ -24,7 +23,13 @@ requestBody:
             description: Email of the contact
           phoneNumber:
             type: string
-            description: Phone number of the contact
+            description: Phone number of the Contact
+          isFavourite:
+            type: boolean
+            description: Is this contact a favourite?
+          contactType:
+            type: string
+            description: Type of the contact ("work", "home", or "personal")
           photo:
             description: 'Contact photo'
             type: string
